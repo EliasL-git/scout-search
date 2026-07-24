@@ -1,0 +1,30 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://scout:scout@db:5432/scout
+      - BETTER_AUTH_SECRET=dev-secret-change-in-production
+      - BETTER_AUTH_URL=https://scout.example.com
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      - POSTGRES_USER=scout
+      - POSTGRES_PASSWORD=scout
+      - POSTGRES_DB=scout
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U scout -d scout"]
+      interval: 5s
+      retries: 5
+
+volumes:
+  pgdata:
