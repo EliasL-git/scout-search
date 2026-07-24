@@ -1,6 +1,8 @@
 import React from "react"
 import PortalSDK from "@stacker/portal-sdk"
 import HomePage from "../pages/HomePage"
+import LoginPage from "../pages/LoginPage"
+import RegisterPage from "../pages/RegisterPage"
 import NotFoundPage from "../pages/NotFoundPage"
 
 export function Router() {
@@ -12,6 +14,13 @@ export function Router() {
     case null:
     case "":
       return <HomePage />
+
+    case "login":
+      return <LoginPage />
+
+    case "register":
+      return <RegisterPage />
+
     default:
       return <NotFoundPage />
   }
